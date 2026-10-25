@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WA Chat Studio - Bantu Warga Marketing Generator</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Master Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- html2canvas for high-res PNG export (Offline + CDN Fallback) -->
+  <script src="html2canvas.min.js"></script>
+  <script>
+    if (typeof html2canvas === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"><\/script>');
+    }
+  </script>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-wrapper">
+        <div class="brand-logo-badge">
+          <i class="fa-brands fa-whatsapp"></i>
+        </div>
+        <div class="brand-info">
+          <h1>
+            WA Chat Studio <span class="tag-marketing">Bantu Warga Digital Marketing</span>
+          </h1>
+          <p>Generator Screenshot Chat WhatsApp Viral & Carousel Sosmed Multi-Bahasa</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="quick-badge-target">
+          <i class="fa-solid fa-bullseye"></i> Target: TikTok, IG, FB & Status WA
+        </div>
+        <button id="btnResetScenario" class="btn-secondary-action" style="padding: 6px 14px; font-size: 0.78rem;">
+          <i class="fa-solid fa-rotate-left"></i> Reset Skenario
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Master Application Layout -->
+  <main class="app-layout">
+    
+    <!-- ==========================================
+         LEFT COLUMN: CONTROLS & STUDIO CONFIG
+         ========================================== -->
+    <aside class="sidebar-column">
+
+      <!-- Panel 1: Skenario & Bahasa -->
+      <div class="panel-card">
+        <div class="panel-title">
+          <span><i class="fa-solid fa-sliders"></i> Skenario & Bahasa</span>
+        </div>
+
+        <!-- Language Switcher -->
+        <div class="form-group">
+          <label class="form-label">Pilih Bahasa Chat & Konten</label>
+          <div class="segment-group" id="langSegmentGroup">
+            <button type="button" class="segment-btn active" data-lang="id">
+              🇮🇩 Bahasa Indonesia
+            </button>
+            <button type="button" class="segment-btn" data-lang="su">
+              ☕ Basa Sunda
+            </button>
+            <button type="button" class="segment-btn" data-lang="jv">
+              🌾 Basa Jawa
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 1: Pilih Kategori & Sub-Kategori (13 Kategori Laravel) -->
+        <div class="category-selection-box">
+          <label class="form-label" style="display: flex; justify-content: space-between; align-items: center;">
+            <span><i class="fa-solid fa-layer-group" style="color: var(--primary);"></i> 1. Pilih Kategori Bantu Warga</span>
+            <span class="badge-laravel">13 Kategori Laravel</span>
+          </label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;">
+            <div>
+              <label class="form-label" style="font-size: 0.7rem;">Kategori Utama</label>
+              <select id="mainCategorySelect" class="form-select" style="font-size: 0.78rem; padding: 7px 8px;">
+                <!-- Populated by JavaScript from BANTU_WARGA_CATEGORIES -->
+              </select>
+            </div>
+            <div>
+              <label class="form-label" style="font-size: 0.7rem;">Sub-Kategori</label>
+              <select id="subCategorySelect" class="form-select" style="font-size: 0.78rem; padding: 7px 8px;">
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+          </div>
+          
+          <!-- Tombol Generate Skenario (AI Engine) -->
+          <button type="button" id="btnGenerateScenario" class="btn-generate-ai">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Skenario Chat (AI)
+          </button>
+        </div>
+
+        <!-- STEP 2: KOTAK SKENARIO & NASKAH CERITA (Menggantikan Kotak List Skenario) -->
+        <div class="scenario-story-card" id="scenarioStoryCard">
+          <div class="scenario-story-header">
+            <div class="scenario-badge-pill" id="scenarioBadgePill">
+              <i class="fa-solid fa-leaf" id="scenarioBadgeIcon"></i>
+              <span id="scenarioBadgeText">Perkebunan • Pemotong rumput</span>
+            </div>
+            <button type="button" id="btnRandomizeAnother" class="btn-regen-subtle" title="Acak Cerita Lain di Kategori Ini">
+              <i class="fa-solid fa-shuffle"></i> Acak Cerita
+            </button>
+          </div>
+
+          <div class="scenario-story-title-row">
+            <label class="form-label" style="font-size: 0.7rem; margin-bottom: 2px;">Judul Naskah Kasus Warga:</label>
+            <input type="text" id="scenarioTitleInput" class="form-input scenario-title-input" value="Pemotong Rumput Liar Halaman & Kran Bocor">
+          </div>
+
+          <div class="scenario-story-synopsis-box">
+            <label class="form-label" style="font-size: 0.7rem; margin-bottom: 2px;">Ringkasan Cerita & Premis Masalah:</label>
+            <textarea id="scenarioSynopsisInput" class="form-textarea scenario-synopsis-textarea" rows="3">Rumput halaman samping sudah setinggi paha dan kran wudhu netes terus. Warga posting tugas di Bantu Warga, Kang Asep langsung datang bawa arit dan kunci pipa dengan sistem rekber escrow amanah.</textarea>
+          </div>
+
+          <div class="scenario-story-meta-row">
+            <div class="scenario-meta-item">
+              <span class="meta-label">Lawan Bicara:</span>
+              <span class="meta-value" id="scenarioWorkerRole">Kang Asep (Tukang)</span>
+            </div>
+            <div class="scenario-meta-item">
+              <span class="meta-label">Estimasi Tarif:</span>
+              <span class="meta-value" id="scenarioRate">Rp 120.000</span>
+            </div>
+          </div>
+
+          <div class="scenario-story-footer">
+            <div class="scenario-sync-status">
+              <i class="fa-solid fa-circle-check" style="color: var(--accent-wa);"></i>
+              <span>3 Slide Chat & Deskripsi Ter-generate</span>
+            </div>
+            <button type="button" id="btnRegenerateActive" class="btn-regen-subtle" title="Generate Ulang Naskah">
+              <i class="fa-solid fa-rotate"></i> Re-generate
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 2: Profil Lawan Bicara (Avatar) -->
+      <div class="panel-card">
+        <div class="panel-title">
+          <span><i class="fa-solid fa-user-gear"></i> Profil Kontak WhatsApp</span>
+          <span style="font-size: 0.7rem; color: var(--text-dim); text-transform: none; font-weight: 500;">6 Foto Asli Lokal</span>
+        </div>
+
+        <!-- 6 Preset Avatars Grid -->
+        <div class="avatar-preset-grid" id="avatarPresetGrid">
+          <!-- Populated by JavaScript from PRESET_AVATARS in data.js -->
+        </div>
+
+        <div class="avatar-tools-row">
+          <label class="checkbox-toggle">
+            <input type="checkbox" id="toggleStoryRing" checked>
+            <span>Lingkaran Status Hijau (Story Ring)</span>
+          </label>
+        </div>
+
+        <div style="margin-top: 12px; display: flex; gap: 8px;">
+          <input type="file" id="customAvatarInput" accept="image/*" style="display: none;">
+          <button type="button" id="btnUploadCustomAvatar" class="btn-upload-avatar" style="flex: 1;">
+            <i class="fa-solid fa-cloud-arrow-up"></i> Upload Foto Sendiri
+          </button>
+          <button type="button" id="btnResetAvatar" class="btn-upload-avatar" title="Kembalikan foto default skenario">
+            <i class="fa-solid fa-arrow-rotate-left"></i>
+          </button>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px;">
+          <div class="form-group">
+            <label class="form-label" for="contactNameInput">Nama Kontak</label>
+            <input type="text" id="contactNameInput" class="form-input" value="Kang Asep (Tukang)">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="contactStatusSelect">Status Kontak</label>
+            <select id="contactStatusSelect" class="form-select">
+              <option value="online">Online</option>
+              <option value="typing">sedang mengetik...</option>
+              <option value="recent">aktif 5 mnt lalu</option>
+              <option value="custom">Kustom...</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group" id="customStatusWrapper" style="display: none; margin-top: 6px;">
+          <input type="text" id="customStatusInput" class="form-input" placeholder="Misal: Siap dipanggil 24 jam" value="">
+        </div>
+      </div>
+
+      <!-- Panel 3: Multi-Slide Carousel & Message Editor -->
+      <div class="panel-card">
+        <div class="panel-title">
+          <span><i class="fa-solid fa-images"></i> Carousel Multi-Slide & Pesan</span>
+          <span style="font-size: 0.72rem; color: var(--primary); font-weight: 700;" id="slideCounterBadge">Slide 1 / 3</span>
+        </div>
+
+        <!-- Slide Switcher Tabs -->
+        <div class="carousel-nav-tabs" id="slideNavTabs">
+          <button type="button" class="slide-tab-btn active" data-slide="1">
+            <span>Slide 1</span>
+            <span class="slide-label">Permintaan</span>
+          </button>
+          <button type="button" class="slide-tab-btn" data-slide="2">
+            <span>Slide 2</span>
+            <span class="slide-label">Edukasi Rekber</span>
+          </button>
+          <button type="button" class="slide-tab-btn" data-slide="3">
+            <span>Slide 3</span>
+            <span class="slide-label">Hasil & Cair</span>
+          </button>
+        </div>
+
+        <!-- Message Editor List -->
+        <div class="form-group">
+          <label class="form-label" style="display: flex; justify-content: space-between;">
+            <span>Daftar Balon Percakapan</span>
+            <span style="color: var(--text-dim); text-transform: none;">Bisa diedit langsung</span>
+          </label>
+          <div class="message-editor-list" id="messageEditorList">
+            <!-- Dynamically populated by app.js -->
+          </div>
+        </div>
+
+        <button type="button" id="btnAddMessage" class="btn-add-message">
+          <i class="fa-solid fa-plus"></i> Tambah Balon Pesan ke Slide Ini
+        </button>
+      </div>
+
+      <!-- Panel 4: Pengaturan HP & Tampilan -->
+      <div class="panel-card">
+        <div class="panel-title">
+          <span><i class="fa-solid fa-mobile-screen"></i> Pengaturan Layar HP</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div class="form-group">
+            <label class="form-label" for="phoneTimeInput">Jam Status Bar</label>
+            <input type="text" id="phoneTimeInput" class="form-input" value="08:18">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="batteryLevelInput">Baterai (%)</label>
+            <input type="number" id="batteryLevelInput" class="form-input" min="1" max="100" value="84">
+          </div>
+        </div>
+
+        <div style="margin-top: 12px; display: flex; flex-direction: column; gap: 8px;">
+          <label class="checkbox-toggle">
+            <input type="checkbox" id="toggleCategoryBadge" checked>
+            <span>Tampilkan Badge Kategori di Chat</span>
+          </label>
+          <label class="checkbox-toggle">
+            <input type="checkbox" id="toggleEscrowNotice" checked>
+            <span>Tampilkan Banner Rekber Bantu Warga</span>
+          </label>
+          <label class="checkbox-toggle">
+            <input type="checkbox" id="toggleWatermark">
+            <span>Sertakan Badge "bantuwarga.online"</span>
+          </label>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ==========================================
+         CENTER COLUMN: WHATSAPP PHONE MOCKUP
+         ========================================== -->
+    <section class="phone-column">
+      
+      <!-- Phone Mockup Container (Export Target) -->
+      <div class="phone-mockup-frame" id="phoneMockupFrame">
+        
+        <!-- Camera Notch & Speaker -->
+        <div class="phone-notch-area">
+          <div class="notch-speaker-bar"></div>
+          <div class="notch-camera-dot"></div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="wa-status-bar" id="waStatusBar">
+          <span id="statusBarClock">08:18</span>
+          <div class="status-bar-icons">
+            <i class="fa-solid fa-signal"></i>
+            <i class="fa-solid fa-wifi"></i>
+            <span id="statusBarBatteryText" style="font-size: 0.68rem; margin-right: 2px;">84%</span>
+            <i class="fa-solid fa-battery-three-quarters" id="statusBarBatteryIcon"></i>
+          </div>
+        </div>
+
+        <!-- WhatsApp Main Header -->
+        <div class="wa-header">
+          <div class="wa-header-left">
+            <i class="fa-solid fa-arrow-left wa-back-btn"></i>
+            
+            <div class="wa-avatar-container has-story-ring" id="waAvatarContainer">
+              <img src="avatars/kang_asep.jpg" alt="Avatar" class="wa-avatar-img" id="waAvatarImg">
+            </div>
+
+            <div class="wa-contact-meta">
+              <div class="wa-contact-name" id="waContactName">Kang Asep (Tukang)</div>
+              <div class="wa-contact-status" id="waContactStatus">online</div>
+            </div>
+          </div>
+
+          <div class="wa-header-right">
+            <i class="fa-solid fa-video wa-header-action-icon"></i>
+            <i class="fa-solid fa-phone wa-header-action-icon"></i>
+            <i class="fa-solid fa-ellipsis-vertical wa-header-action-icon"></i>
+          </div>
+        </div>
+
+        <!-- WhatsApp Chat Scroll Area -->
+        <div class="wa-chat-area" id="waChatArea">
+          
+          <!-- Date Pill -->
+          <div class="wa-date-pill-wrapper">
+            <div class="wa-date-pill">HARI INI</div>
+          </div>
+
+          <!-- Escrow Trust Notice -->
+          <div class="wa-escrow-notice" id="waEscrowNotice">
+            <i class="fa-solid fa-shield-halved"></i>
+            <strong>Bantu Warga Rekber Aman:</strong> Dana ditahan sistem dan baru cair ke pekerja setelah Anda konfirmasi selesai.
+          </div>
+
+          <!-- Official Category Topic Badge -->
+          <div class="wa-category-badge-wrapper" id="waCategoryBadgeWrapper">
+            <div class="wa-category-badge" id="waCategoryBadge">
+              <i class="fa-solid fa-leaf" id="waCategoryIcon"></i>
+              <span id="waCategoryText">Kategori: Perkebunan • Pemotong rumput</span>
+            </div>
+          </div>
+
+          <!-- Dynamic Chat Bubbles Container -->
+          <div id="waBubblesContainer" style="display: flex; flex-direction: column; gap: 8px;">
+            <!-- Rendered by app.js -->
+          </div>
+
+          <!-- Watermark (Optional) -->
+          <div class="wa-watermark" id="waWatermarkBadge">
+            <i class="fa-solid fa-shield-check"></i> bantuwarga.online
+          </div>
+
+        </div>
+
+        <!-- WhatsApp Bottom Input Bar -->
+        <div class="wa-input-container">
+          <div class="wa-input-pill">
+            <i class="fa-regular fa-face-smile"></i>
+            <span class="wa-input-placeholder">Ketik pesan</span>
+            <i class="fa-solid fa-paperclip"></i>
+            <i class="fa-solid fa-camera"></i>
+          </div>
+          <div class="wa-mic-btn">
+            <i class="fa-solid fa-microphone"></i>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Action Buttons Under Phone Mockup -->
+      <div class="phone-actions-dock">
+        <!-- Quick Carousel Navigator -->
+        <div class="phone-quick-nav">
+          <button type="button" id="btnPrevSlide" class="btn-icon-subtle" title="Slide Sebelumnya">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          
+          <div class="slide-dots-indicator" id="slideDotsIndicator">
+            <div class="slide-dot active"></div>
+            <div class="slide-dot"></div>
+            <div class="slide-dot"></div>
+          </div>
+
+          <button type="button" id="btnNextSlide" class="btn-icon-subtle" title="Slide Selanjutnya">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+
+        <!-- Download Buttons -->
+        <button type="button" id="btnDownloadSinglePng" class="btn-primary-action">
+          <i class="fa-solid fa-camera"></i> Download Slide Ini (PNG)
+        </button>
+
+        <button type="button" id="btnDownloadAllSlides" class="btn-secondary-action">
+          <i class="fa-solid fa-download"></i> Download Semua Slide (1, 2, 3) Sekaligus
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ==========================================
+         RIGHT COLUMN: SOSMED CAPTION & HASHTAGS
+         ========================================== -->
+    <aside class="caption-column">
+
+      <div class="panel-card">
+        <div class="panel-title">
+          <span><i class="fa-solid fa-hashtag"></i> Generator Deskripsi & Tagar Sosmed</span>
+          <span style="font-size: 0.7rem; color: var(--accent-wa); font-weight: 700;">Otomatis Sinkron</span>
+        </div>
+
+        <!-- Platform Selector -->
+        <div class="form-group">
+          <label class="form-label">Pilih Target Platform Sosmed</label>
+          <div class="platform-pills" id="platformPills">
+            <button type="button" class="platform-pill-btn active" data-platform="tiktok">
+              <i class="fa-brands fa-tiktok"></i>
+              <span>TikTok / Reels</span>
+            </button>
+            <button type="button" class="platform-pill-btn" data-platform="instagram">
+              <i class="fa-brands fa-instagram"></i>
+              <span>Carousel IG</span>
+            </button>
+            <button type="button" class="platform-pill-btn" data-platform="facebook">
+              <i class="fa-brands fa-facebook"></i>
+              <span>Facebook</span>
+            </button>
+            <button type="button" class="platform-pill-btn" data-platform="wa_status">
+              <i class="fa-brands fa-whatsapp"></i>
+              <span>Status WA</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tone Selector -->
+        <div class="form-group">
+          <label class="form-label">Pilih Nada & Sudut Cerita (Angle)</label>
+          <div class="tone-selector-cards" id="toneCards">
+            <div class="tone-card active" data-tone="drama">
+              <div class="tone-badge-icon">🎭</div>
+              <div class="tone-title">Drama & Curhat</div>
+              <div class="tone-subtitle">Relate & Emosional</div>
+            </div>
+            <div class="tone-card" data-tone="edukasi">
+              <div class="tone-badge-icon">💡</div>
+              <div class="tone-title">Edukasi & Rekber</div>
+              <div class="tone-subtitle">Keamanan Transaksi</div>
+            </div>
+            <div class="tone-card" data-tone="promo">
+              <div class="tone-badge-icon">🚀</div>
+              <div class="tone-title">Promo & Solusi</div>
+              <div class="tone-subtitle">Ajak Download/Order</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Preview Caption Box -->
+        <div class="caption-preview-container">
+          
+          <!-- Hook Section -->
+          <div class="caption-section-card">
+            <div class="caption-section-header">
+              <span class="caption-section-label">
+                <i class="fa-solid fa-fire"></i> Hook (Baris Pertama Viral)
+              </span>
+              <button type="button" id="btnCopyHook" class="btn-icon-subtle" title="Salin Hook">
+                <i class="fa-regular fa-copy"></i>
+              </button>
+            </div>
+            <div class="caption-text-rendered" id="captionHookText">
+              <!-- Rendered by app.js -->
+            </div>
+          </div>
+
+          <!-- Story Section -->
+          <div class="caption-section-card">
+            <div class="caption-section-header">
+              <span class="caption-section-label">
+                <i class="fa-solid fa-align-left"></i> Cerita / Isi Postingan
+              </span>
+              <button type="button" id="btnCopyStory" class="btn-icon-subtle" title="Salin Cerita">
+                <i class="fa-regular fa-copy"></i>
+              </button>
+            </div>
+            <div class="caption-text-rendered" id="captionStoryText">
+              <!-- Rendered by app.js -->
+            </div>
+          </div>
+
+          <!-- CTA Section -->
+          <div class="caption-section-card">
+            <div class="caption-section-header">
+              <span class="caption-section-label">
+                <i class="fa-solid fa-bullhorn"></i> Call To Action (Ajakan)
+              </span>
+              <button type="button" id="btnCopyCta" class="btn-icon-subtle" title="Salin CTA">
+                <i class="fa-regular fa-copy"></i>
+              </button>
+            </div>
+            <div class="caption-text-rendered" id="captionCtaText">
+              <!-- Rendered by app.js -->
+            </div>
+          </div>
+
+          <!-- Hashtags Section -->
+          <div class="caption-section-card">
+            <div class="caption-section-header">
+              <span class="caption-section-label">
+                <i class="fa-solid fa-tags"></i> Tagar Pilihan (Hashtags)
+              </span>
+              <button type="button" id="btnCopyTags" class="btn-icon-subtle" title="Salin Semua Tagar">
+                <i class="fa-regular fa-copy"></i>
+              </button>
+            </div>
+            <div class="hashtag-cloud" id="captionHashtagCloud">
+              <!-- Tag pills rendered by app.js -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Master Copy Action -->
+        <div class="copy-actions-container">
+          <button type="button" id="btnCopyMaster" class="btn-copy-master">
+            <i class="fa-solid fa-paste"></i> Salin Deskripsi & Tagar Lengkap
+          </button>
+          
+          <div class="copy-sub-actions">
+            <button type="button" id="btnEditCaptionMode" class="btn-secondary-action" style="font-size: 0.78rem;">
+              <i class="fa-regular fa-pen-to-square"></i> Edit Teks Sebelum Salin
+            </button>
+            <button type="button" id="btnCopyCleanTags" class="btn-secondary-action" style="font-size: 0.78rem;">
+              <i class="fa-solid fa-hashtag"></i> Salin Tagar Saja
+            </button>
+          </div>
+        </div>
+
+        <!-- Editable Caption Modal/Box (Toggled if desired) -->
+        <div id="editableCaptionWrapper" style="display: none; margin-top: 14px;">
+          <label class="form-label">Editor Langsung (Full Text)</label>
+          <textarea id="editableCaptionTextarea" class="form-textarea" rows="8"></textarea>
+          <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px;">
+            <button type="button" id="btnSaveEditedCaption" class="btn-primary-action" style="padding: 6px 14px; font-size: 0.78rem; width: auto;">
+              Terapkan Perubahan
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- Toast Notification element -->
+  <div class="toast-notification" id="toastNotification">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="toastMessage">Tersalin ke clipboard!</span>
+  </div>
+
+  <!-- Load Data, Generator AI, and App Script -->
+  <script src="data.js"></script>
+  <script src="generator.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
